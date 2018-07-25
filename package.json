@@ -1,0 +1,34 @@
+{
+  "name": "ws-module-ionic",
+  "version": "0.0.1",
+  "description": "Service for http requests manager, ionic flavor",
+  "main": "index.js",
+  "files": [
+    "package/"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucabro81/ws-module-ionic.git"
+  },
+  "dependencies": {
+    "@types/signals": "^1.0.1",
+    "@types/rx": "^4.1.1",
+    "rx": "^4.1.0",
+    "signals": "^1.0.0",
+    "lucabro-linked-list": "^1.0.29",
+    "child_process": "^1.0.2",
+    "concurrently": "^3.5.1",
+    "fs": "0.0.1-security",
+    "typescript": "^2.8.3",
+    "typescript-require": "^0.2.10"
+  },
+  "author": "Luca Brognara",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucabro81/ws-module-ionic/issues"
+  },
+  "homepage": "https://github.com/lucabro81/ws-module-ionic#readme"
+}
