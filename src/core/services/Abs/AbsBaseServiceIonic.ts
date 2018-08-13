@@ -164,6 +164,8 @@ export class AbsBaseServiceIonic extends AbsHandlerManager {
 
         this.nextRequest();
 
+        // TODO: Gestione JWT
+
         let body = response.json();
 
         return new Promise((resolve) => {
@@ -374,11 +376,10 @@ export class AbsBaseServiceIonic extends AbsHandlerManager {
             response = response.retry(override_data.retry);
         }
 
-        if (override_data.debounce > 0) {
-            response = response.debounce(override_data.debounce).distinctUntilChanged();
-        }
+        // if (override_data.debounce > 0) {
+        //     response = response.debounce(override_data.debounce).distinctUntilChanged();
+        // }
 
-        // FIXME: flatmap ritorna un Observable<TResult...>
         return <Observable<T>>response
             .flatMap((response: T) => {
                 return this.onSuccess(response, url)
