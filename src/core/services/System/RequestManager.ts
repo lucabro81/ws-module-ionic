@@ -11,17 +11,26 @@ import { SubjectContVO } from "../../../vo/SubjectContVO";
 import { GetListServiceParamsVO } from "../../../vo/GetListServiceParamsVO";
 import { Subject } from "rxjs";
 
-interface RequestManagerListVO<R, T> {
+interface RequestManagerHashVO<R, T> {
     [id: string]: RequestManager<R, T>
+}
+
+interface SignalsHashVO {
+    [id: string]: any
+}
+
+interface ListenerDecoratorVO {
+    id: string | null,
+    listener: any
 }
 
 export class RequestManager<R, T extends AbsListener> {
 
     // public static
     public static request_queue_list: LinkedList<ListElement>;
-    public static listener_decorator: Array<{ id: string | null, listener: any }> = [];
-    public static request_manager_list: RequestManagerListVO<R, T> = <RequestManagerListVO<R, T>>{};
-    public static signals: { [id: string]: any } = {};
+    public static listener_decorator: Array<ListenerDecoratorVO> = [];
+    public static request_manager_list: RequestManagerHashVO<R, T> = <RequestManagerHashVO<R, T>>{};
+    public static signals: SignalsHashVO = <SignalsHashVO>{};
     public static is_stop_on_error_active: boolean = false;
     public static stop_on_error_active_callback: ((evt: any) => void) | null;
     public static request_counter: number = 0;
@@ -121,6 +130,7 @@ export class RequestManager<R, T extends AbsListener> {
     }
 
     /**
+     * Return the observable of the current request
      *
      * @returns {Observable<R>}
      */
@@ -165,7 +175,7 @@ export class RequestManager<R, T extends AbsListener> {
     }
 
     /**
-     * Retrieve the request object by request id form the request queue
+     * Retrieve the request manager object by request id form the request queue
      *
      * @param id
      * @returns {any}
@@ -348,7 +358,7 @@ export class RequestManager<R, T extends AbsListener> {
     }
 
 /////////////////////////////
-////////// PROVATE //////////
+////////// PRIVATE //////////
 /////////////////////////////
 
     /**
@@ -370,7 +380,7 @@ export class RequestManager<R, T extends AbsListener> {
         for (let i = 0; i < l; i++) {
             if (RequestManager.listener_decorator[i].id === this.id_request) {
                 RequestManager.listener_decorator[i].listener.onSuccess(evt, () => {
-                    ready_to_go_arr[index] = true;
+                    ready_to_go_arr[i] = true;
                     this.checkIfReadyToGo(ready_to_go_arr);
                 });
             }
@@ -416,7 +426,7 @@ export class RequestManager<R, T extends AbsListener> {
         for (let i = 0; i < l; i++) {
             if (RequestManager.listener_decorator[i].id === this.id_request) {
                 RequestManager.listener_decorator[i].listener.onError(evt, () => {
-                    ready_to_go_arr[index] = true;
+                    ready_to_go_arr[i] = true;
                     this.checkIfReadyToGo(ready_to_go_arr);
                 });
             }
