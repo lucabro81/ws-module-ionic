@@ -10,14 +10,16 @@ export abstract class AbsListener implements IListener{
         this.decorated_listener = decorated_listener;
     }
 
-    public onError(evt:any):void {
+    public onError(evt:any, callback:() => void):void {
         // console.log("AbsListener.onError");
         this.decorated_listener.onError(evt);
+        callback();
     }
 
-    public onSuccess(evt:any):void {
+    public onSuccess(evt:any, callback:() => void):void {
         // console.log("AbsListener.onSuccess");
         this.decorated_listener.onSuccess(evt);
+        callback();
     }
 
     public destroy():void {
